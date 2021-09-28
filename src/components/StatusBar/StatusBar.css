@@ -1,11 +1,15 @@
-.App {
-  text-align: center;
-}
-
-.content {
+.status-bar {
   position: fixed;
   top: 0;
   background: rgba(0, 0, 0, 0.5);
   color: #f1f1f1;
   padding: 10px;
+}
+
+.status-row * {
+	display: inline-block;
+}
+
+.status-row h1 {
+	padding-right: 20px;
 }
