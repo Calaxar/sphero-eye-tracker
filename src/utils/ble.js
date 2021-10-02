@@ -1,8 +1,10 @@
 import UUID from "./UUID";
 
+let bluetoothDevice;
 let gattServer;
 
 let bleService;
+let wakeCharacteristic;
 
 let robotService;
 let controlCharacteristic;
@@ -45,9 +47,7 @@ function sendCommand(did, cid, data) {
 	array.set(packets, 0);
 	array.set(data, packets.byteLength);
 	array.set(checksum, packets.byteLength + data.byteLength);
-	return controlCharacteristic.writeValue(array).then(() => {
-		console.log('Command write done.');
-	});
+	return controlCharacteristic.writeValue(array);
 }
 
 export function setColor(r, g, b) {
@@ -110,11 +110,7 @@ export function stop(heading) {
 	});
 }
 
-export function connectToSphero() {
-	if (gattServer) {
-		console.log("Already connected!");
-		return;
-	}
+export function connectToSphero(onConnected, onDisconnected) {
 
 	let options = {
 		filters: [
@@ -126,6 +122,8 @@ export function connectToSphero() {
 	console.log('Requesting BLE device info...')
 	navigator.bluetooth.requestDevice(options)
 		.then(device => {
+			bluetoothDevice = device;
+			bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
 			console.log('Connecting to GATT Server...');
 			return device.gatt.connect();
 		})
@@ -166,6 +164,7 @@ export function connectToSphero() {
 		})
 		.then(characteristic => {
 			console.log('> Found Wake CPU characteristic');
+			wakeCharacteristic = characteristic;
 			let array = new Uint8Array([0x01]);
 			return characteristic.writeValue(array).then(() => {
 				console.log('Wake CPU write done.');
@@ -185,10 +184,19 @@ export function connectToSphero() {
 			console.log('> Found Control characteristic');
 			// Cache the characteristic
 			controlCharacteristic = characteristic;
-			return setColor(0, 100, 0);
+			return onConnected();
 		})
 		.catch(error => {
 			console.log('Argh! ' + error);
 		});
 
+}
+
+export function isConnected() {
+	wakeCharacteristic.readValue()
+	.catch(() => {
+		return false;
+	});
+
+	return true;
 }

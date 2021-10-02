@@ -1,24 +1,32 @@
 import { useState } from 'react';
 import './App.css';
 import ControlPad from './components/ControlPad';
-import Modal from './components/Modal';
+import ConnectModal from './components/ConnectModal';
 import StatusBar from './components/StatusBar';
 import VideoFeed from './components/VideoFeed';
-import { connectToSphero } from "./utils/ble";
 
 function App() {
 	const [showModal, setShowModal] = useState(true);
+	const [spheroConnected, setSpheroConnected] = useState(false);
+
+	function onConnected() {
+		setSpheroConnected(true);
+		setShowModal(false);
+	};
+
+	function onDisconnected() {
+		setSpheroConnected(false);
+		setShowModal(true);
+	};
 
 	return (
 		<div className="App">
 			<VideoFeed />
-			<StatusBar />
+			<StatusBar spheroIsConnected={spheroConnected} />
 			<ControlPad />
 			{
 				showModal &&
-				<Modal onClose={() => setShowModal(false)}>
-					<input className="button" type="button" value="Connect" onClick={() => connectToSphero()} />
-				</Modal>
+				<ConnectModal onConnected={onConnected} onDisconnected={onDisconnected} />
 			}
 
 		</div>
