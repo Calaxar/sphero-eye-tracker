@@ -1,0 +1,40 @@
+.control-pad {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+	top: 50%;
+	margin-top: -300px;
+}
+
+.control-pad img {
+	width: 200px;
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 25px;
+}
+
+.control-pad img:hover {
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.up-arrow {
+	transform: rotate(270deg);
+}
+
+.down-arrow {
+	transform: rotate(90deg);
+}
+
+.left-arrow {
+	transform: rotate(180deg);
+}
+
+.right-arrow {
+	transform: rotate(0deg);
+	margin-left: 200px;
+}
+
+.middle {
+	display: inline-block;
+}
