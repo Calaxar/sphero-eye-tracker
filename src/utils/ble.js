@@ -80,7 +80,27 @@ export function roll(heading) {
 	let did = 0x02; // Virtual device ID
 	let cid = 0x30; // Roll command
 	// Roll command data: speed, heading (MSB), heading (LSB), state
-	let data = new Uint8Array([10, heading >> 8, heading & 0xFF, 1]);
+	let data = new Uint8Array([80, heading >> 8, heading & 0xFF, 1]);
+
+	sendCommand(did, cid, data).then(() => {
+		busy = false;
+	})
+	.catch(error => {
+		console.log('Argh! ' + error);
+	});
+}
+
+export function stop(heading) {
+	console.log('Stopping.');
+	if (busy) {
+		// Return if another operation pending
+		return Promise.resolve();
+	}
+	busy = true;
+	let did = 0x02; // Virtual device ID
+	let cid = 0x30; // Roll command
+	// Roll command data: speed, heading (MSB), heading (LSB), state
+	let data = new Uint8Array([0, heading >> 8, heading & 0xFF, 1]);
 
 	sendCommand(did, cid, data).then(() => {
 		busy = false;
@@ -165,7 +185,7 @@ export function connectToSphero() {
 			console.log('> Found Control characteristic');
 			// Cache the characteristic
 			controlCharacteristic = characteristic;
-			return setColor(0, 150, 0);
+			return setColor(0, 100, 0);
 		})
 		.catch(error => {
 			console.log('Argh! ' + error);

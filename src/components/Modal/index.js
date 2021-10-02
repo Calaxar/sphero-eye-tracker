@@ -3,9 +3,9 @@ import './Modal.css';
 const Modal = (props) => {
 
 	return (
-		<div class="modal">
-			<div class="modal-content">
-				<span class="close" onClick={props.onClose}>&times;</span>
+		<div className="modal">
+			<div className="modal-content">
+				<span className="close" onClick={props.onClose}>&times;</span>
 				{props.children}
 			</div>
 		</div>

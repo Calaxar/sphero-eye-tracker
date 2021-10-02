@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import ControlPad from './components/ControlPad';
 import Modal from './components/Modal';
 import StatusBar from './components/StatusBar';
 import VideoFeed from './components/VideoFeed';
@@ -12,6 +13,7 @@ function App() {
 		<div className="App">
 			<VideoFeed />
 			<StatusBar />
+			<ControlPad />
 			{
 				showModal &&
 				<Modal onClose={() => setShowModal(false)}>
