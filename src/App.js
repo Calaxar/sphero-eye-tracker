@@ -17,7 +17,7 @@ function App() {
 			{
 				showModal &&
 				<Modal onClose={() => setShowModal(false)}>
-					<input type="button" value="Connect" onClick={() => connectToSphero()} />
+					<input className="button" type="button" value="Connect" onClick={() => connectToSphero()} />
 				</Modal>
 			}
 

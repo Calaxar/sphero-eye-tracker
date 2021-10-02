@@ -5,8 +5,10 @@ const Modal = (props) => {
 	return (
 		<div className="modal">
 			<div className="modal-content">
-				<span className="close" onClick={props.onClose}>&times;</span>
-				{props.children}
+				<div className="close" onClick={props.onClose}>&times;</div>
+				<div>
+					{props.children}
+				</div>
 			</div>
 		</div>
 	);
