@@ -3,6 +3,7 @@ import './App.css';
 import Modal from './components/Modal';
 import StatusBar from './components/StatusBar';
 import VideoFeed from './components/VideoFeed';
+import { connectToSphero } from "./utils/ble";
 
 function App() {
 	const [showModal, setShowModal] = useState(true);
@@ -14,7 +15,7 @@ function App() {
 			{
 				showModal &&
 				<Modal onClose={() => setShowModal(false)}>
-					<h1>MODAL</h1>
+					<input type="button" value="Connect" onClick={() => connectToSphero()} />
 				</Modal>
 			}
 
