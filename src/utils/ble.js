@@ -184,6 +184,7 @@ export function connectToSphero(onConnected, onDisconnected) {
 			console.log('> Found Control characteristic');
 			// Cache the characteristic
 			controlCharacteristic = characteristic;
+			setColor(0, 100, 0);
 			return onConnected();
 		})
 		.catch(error => {
