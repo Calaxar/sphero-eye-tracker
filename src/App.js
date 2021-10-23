@@ -9,6 +9,7 @@ function App() {
 	const [showModal, setShowModal] = useState(true);
 	const [spheroConnected, setSpheroConnected] = useState(false);
 	const [heading, setHeading] = useState(0);
+	const [useEyetracker, setUseEyetracker] = useState(false);
 
 	function onConnected() {
 		setSpheroConnected(true);
@@ -23,8 +24,8 @@ function App() {
 	return (
 		<div className="App">
 			<VideoFeed />
-			<StatusBar spheroIsConnected={spheroConnected} cameraIsConnected />
-			<ControlPad heading={heading} setHeading={setHeading} />
+			<ControlPad heading={heading} setHeading={setHeading} useEyetracker={useEyetracker} />
+			<StatusBar spheroIsConnected={spheroConnected} cameraIsConnected useEyetracker={useEyetracker} setUseEyetracker={setUseEyetracker} />
 			{
 				showModal &&
 				<ConnectModal onConnected={onConnected} onDisconnected={onDisconnected} setHeading={setHeading} />
