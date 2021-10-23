@@ -11,6 +11,10 @@ const StatusBar = (props) => {
 				<h1>Camera</h1>
 				<img src={props.cameraIsConnected ? "connected.svg" : "not_connected.svg"} />
 			</div>
+			<div className="status-row">
+				<input className="button" type="button" value={props.useEyetracker ? "Use Mouse" : "Use Eyetracker"} onClick={() => props.setUseEyetracker(!props.useEyetracker)} />
+			</div>
+
 		</div>
 	);
 };

@@ -3,6 +3,7 @@ import { roll, stop } from "../../utils/ble";
 const ArrowButton = (props) => {
 	var className;
 	var direction;
+	var timer;
 
 	var xmlhttp = new XMLHttpRequest();
 	var url = "http://raspberrypi:8080/";
@@ -15,25 +16,31 @@ const ArrowButton = (props) => {
 		}
 	};
 
+	const stopAndSync = () => {
+		stop(direction);
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	};
+
 	switch (props.direction) {
 		case "up":
-			className = "up-arrow";
+			className = `up-arrow ${props.useEyetracker && "eyetracker"}`;
 			direction = 0;
 			break;
 		case "down":
-			className = "down-arrow";
+			className = `down-arrow ${props.useEyetracker && "eyetracker"}`;
 			direction = 180;
 			break;
 		case "left":
-			className = "left-arrow";
+			className = `left-arrow ${props.useEyetracker && "eyetracker"}`;
 			direction = 270;
 			break;
 		case "right":
-			className = "right-arrow";
+			className = `right-arrow ${props.useEyetracker && "eyetracker"}`;
 			direction = 90;
 			break;
 		default:
-			className = "up-arrow";
+			className = `up-arrow ${props.useEyetracker && "eyetracker"}`;
 			direction = 0;
 			break;
 	}
@@ -44,11 +51,27 @@ const ArrowButton = (props) => {
 	}
 
 	return (
-		<img className={className} src="arrow.svg" onMouseDown={() => roll(direction)} onMouseUp={() => {
-			stop(direction);
-			xmlhttp.open("GET", url, true);
-			xmlhttp.send();
-		}} />
+		<img
+			className={className}
+			src="arrow.svg"
+			onMouseDown={() => {
+				if (!props.useEyetracker) roll(direction)();
+			}}
+			onMouseUp={() => {
+				if (!props.useEyetracker) stopAndSync();
+			}}
+			onMouseOver={() => {
+				if (props.useEyetracker) {
+					timer = setTimeout(() => {roll(direction)}, 1000);
+				}
+			}}
+			onMouseOut={() => {
+					if (props.useEyetracker) {
+						stopAndSync();
+						if (timer) clearTimeout(timer);
+					}
+			}}
+		/>
 	);
 };
 
