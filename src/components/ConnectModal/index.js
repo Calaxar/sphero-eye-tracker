@@ -7,8 +7,9 @@ const ConnectModal = (props) => {
 
 	xmlhttp.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			var myArr = JSON.parse(this.responseText);
-			console.log(myArr);
+			var headingObj = JSON.parse(this.responseText);
+			console.log(headingObj);
+			props.setHeading(parseInt(headingObj.heading));
 		}
 	};
 
@@ -18,7 +19,7 @@ const ConnectModal = (props) => {
 				<div>
 					<h2>Sphero not connected.</h2>
 					<input className="button" type="button" value="Connect" onClick={() => connectToSphero(props.onConnected, props.onDisconnected)} />
-					<input className="button" type="button" value="Get JSON" onClick={() => {
+					<input className="button" type="button" value="Sync with Pi" onClick={() => {
 						xmlhttp.open("GET", url, true);
 						xmlhttp.send();
 					}} />
